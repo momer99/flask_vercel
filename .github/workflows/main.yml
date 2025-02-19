@@ -1,4 +1,4 @@
-name: Flask with Vercel
+name: Deploy Flask to Vercel
 
 on:
   push:
@@ -6,27 +6,23 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v2
-      
-      - name: Set up Python
+
+      - name: Set Up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
-      
-      - name: Create Virtual Environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-      
+
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
-      
+
       - name: Deploy to Vercel
         run: |
           npm install -g vercel
           vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+          
